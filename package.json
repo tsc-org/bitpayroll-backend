@@ -1,5 +1,5 @@
 {
-  "name": "lnpayroll",
+  "name": "bitpayroll-api",
   "version": "1.0.0",
   "main": "server.js",
   "license": "MIT",
@@ -7,7 +7,7 @@
     "start": "node .",
     "tsc": "tsc -w",
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
-    "prod": "node ./dist/server.ts",
+    "prod": "node ./dist/server.js",
     "clean": "true",
     "build": "yarn run clean && tsc",
     "postinstall": "yarn run build",
