@@ -2,8 +2,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const config  = {
+export const config  = {
+    secret: process.env.SECRET,
     port: process.env.PORT,
 }
-
-export default config;

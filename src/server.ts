@@ -1,13 +1,35 @@
-import express, {Express, Request, Response} from 'express';
-import config from './config/config';
+import express, { Express } from "express";
+import {config} from "./config/config";
+import bodyParser from "body-parser";
+const dotenv = require("dotenv");
+const cors = require("cors");
+import { UserRouter } from "./controllers/v0/auth/user.router";
 
 
-const app = express();
-const port: String = config.port;
+dotenv.config();
 
-app.get('/', (req, res) => {
-    return res.json({ message: 'Hello World' });
-    }
+const app: Express = express();
+const port = config.port;
+
+app.use(
+  cors({
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "X-Access-Token",
+      "Authorization",
+    ],
+    methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+    preflightContinue: true,
+    origin: "*",
+  })
 );
 
-app.listen(port, () => console.log(`App listening on port ${port}!`));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use("/", UserRouter);
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
