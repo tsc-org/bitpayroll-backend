@@ -8,14 +8,14 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req: Request, res: Response) => {
-  res.send("Welcome to the auth route");
+  res.json("Welcome to the auth route");
 });
 
 router.get(
   "/verification",
   requireAuth,
   async (req: Request, res: Response) => {
-    return res.status(200).send({ auth: true, message: "Authenticated." });
+    return res.status(200).json({ auth: true, message: "Authenticated." });
   }
 );
 
@@ -26,7 +26,7 @@ router.get("/:id", async (req: Request, res: Response) => {
       id: id,
     },
   });
-  res.send(item);
+  res.json(item);
 });
 router.use("/auth", RegisterRouter);
 router.use("/auth", LoginRouter);
