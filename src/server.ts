@@ -3,7 +3,7 @@ import {config} from "./config/config";
 import bodyParser from "body-parser";
 const dotenv = require("dotenv");
 const cors = require("cors");
-import { UserRouter } from "./controllers/v0/auth/user.router";
+import { UserRouter } from "./api/v0/auth/user.router";
 
 
 dotenv.config();
