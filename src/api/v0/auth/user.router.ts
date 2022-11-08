@@ -19,15 +19,16 @@ router.get(
   }
 );
 
-router.get("/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const item = await prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-  });
-  res.json(item);
-});
+// router.get("/:id", async (req: Request, res: Response) => {
+//   const { id } = req.params;
+//   const item = await prisma.user.findUnique({
+//     where: {
+//       id: id,
+//     },
+//   });
+//   res.json(item);
+// });
+
 router.use("/auth", RegisterRouter);
 router.use("/auth", LoginRouter);
 
