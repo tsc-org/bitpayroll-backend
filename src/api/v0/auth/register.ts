@@ -1,14 +1,12 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import * as EmailValidator from "email-validator";
-import {generatePassword, generateJWT } from "./auth";
+import { generatePassword, generateJWT } from "./auth";
 import { randomString } from "../../../helpers/randomString";
 import { confirmationEmail } from "../../../helpers/confirmationEmail";
 
 const router: Router = Router();
 const prisma = new PrismaClient();
-
-
 
 router.post("/register-organisation", async (req: Request, res: Response) => {
   const secretToken = randomString();
@@ -41,7 +39,7 @@ router.post("/register-organisation", async (req: Request, res: Response) => {
     },
   });
 
-  confirmationEmail(secretToken, email);
+  await confirmationEmail(secretToken, email);
   const jwt = generateJWT(newUser);
   return res.status(201).json({ jwt });
 });
@@ -77,9 +75,9 @@ router.post("/register-employee", async (req: Request, res: Response) => {
     },
   });
 
-  confirmationEmail(secretToken, email);
+  await confirmationEmail(secretToken, email);
   const jwt = generateJWT(newUser);
-  return res.status(201).json({ token:jwt });
+  return res.status(201).json({ token: jwt });
 });
 
 export const RegisterRouter: Router = router;

@@ -7,6 +7,8 @@ const router: Router = Router();
 router.get("/org", async (req: Request, res: Response) => {
     res.status(200).send("welcome to the organisation route");
 });
+
+
 router.use("/org", UpdateAccountRouter);
 router.use("/org", WalletRouter);
 

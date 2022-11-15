@@ -34,7 +34,6 @@ model Organisation {
   phone        String?
   country      String?
   state        String?
-  r_codes      Int?
   wallet       Wallet[]
   Transactions Transaction[]
   employee     Employee[]
@@ -48,32 +47,32 @@ model Employee {
   wallet_address String?
   country        String?
   state          String?
-  org            Organisation  @relation(fields: [orgID], references: [id])
-  orgID          String        @unique
+  org            Organisation? @relation(fields: [orgID], references: [id])
+  orgID          String?       @unique
   Transactions   Transaction[]
   createdAt      DateTime      @default(now())
 }
 
 model Transaction {
-  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  id         String        @id @default(auto()) @map("_id") @db.ObjectId
   sender     String
   receiver   String
   amount     Float
   status     String
-  org        Organisation @relation(fields: [orgID], references: [id])
-  orgID      String       @unique
-  employee   Employee     @relation(fields: [employeeID], references: [id])
+  org        Organisation? @relation(fields: [orgID], references: [id])
+  orgID      String?       @unique
+  employee   Employee      @relation(fields: [employeeID], references: [id])
   employeeID String
-  createdAt  DateTime     @default(now())
+  createdAt  DateTime      @default(now())
 }
 
 model Wallet {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
   wallet_address String?
   privatekey     String?
   xpubkey        String?
   mnemonic       String?
-  org            Organisation @relation(fields: [orgID], references: [id])
-  orgID          String       @unique
-  createdAt      DateTime     @default(now())
+  org            Organisation? @relation(fields: [orgID], references: [id])
+  orgID          String?       @unique
+  createdAt      DateTime      @default(now())
 }

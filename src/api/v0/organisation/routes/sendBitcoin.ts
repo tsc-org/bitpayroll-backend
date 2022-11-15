@@ -6,22 +6,19 @@ import { sendBitcoin } from "../../../../utils/sendBitcoin";
 const router: Router = Router();
 const prisma = new PrismaClient();
 
-// const decryptPrivateKey = async (privateKey: string, hashPrivateKey) => {
-//   return await bcrypt.compare(privateKey, hashPrivateKey);
-// };
-
 router.post("/send-bitcoin", async (req: Request, res: Response) => {
-  try {
-    const { sourceAddress, recieverAddress, amount } = req.body;
-    const send = await sendBitcoin(
-      sourceAddress,
-      recieverAddress,
-      amount,
-      hashedPrivateKey,
-      );
-    res.status(200).json({ send });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-    throw new Error(error);
-  }
+  //get walletaddress from organisation document in the database
+
+
+
+  const { amount, toAddress, fromAddress, privateKey } = req.body;
+  const decryptedPrivateKey = decryptPrivateKey(privateKey);
+  const transaction = await sendBitcoin(
+    amount,
+    toAddress,
+    fromAddress,
+    decryptedPrivateKey
+  );
+  return res.status(200).json({ transaction });
+ 
 });
