@@ -16,15 +16,15 @@ enum Role {
 }
 
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  email     String    @unique
-  password  String
-  isActive  Boolean   @default(false)
-  jwt_token String?
-  role      Role
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  email       String    @unique
+  password    String
+  isActive    Boolean   @default(false)
+  secretToken String?
+  role        Role
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 }
 
 model Organisation {
@@ -68,12 +68,12 @@ model Transaction {
 }
 
 model Wallet {
-  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
   wallet_address String?
   privatekey     String?
   xpubkey        String?
   mnemonic       String?
-  org            Organisation  @relation(fields: [orgID], references: [id])
+  org            Organisation @relation(fields: [orgID], references: [id])
   orgID          String       @unique
-  createdAt      DateTime      @default(now())
+  createdAt      DateTime     @default(now())
 }
