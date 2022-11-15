@@ -1,8 +1,7 @@
-const { PrivateKey } = require("bitcore-lib");
 const { testnet} = require("bitcore-lib/lib/networks");
 const Mnemonic = require("bitcore-mnemonic");
 
-const createHDWallet = (network = testnet) => {
+export const createHDWallet = (network = testnet) => {
   let passPhrase = new Mnemonic(Mnemonic.Words.ENGLISH);
   let xpriv = passPhrase.toHDPrivateKey(passPhrase.toString(), network);
 
@@ -10,8 +9,8 @@ const createHDWallet = (network = testnet) => {
     xpub: xpriv.xpubkey,
     privatekey: xpriv.privateKey.toString(),
     address: xpriv.publicKey.toAddress().toString(),
-    nmenonic: passPhrase.toString()
+    mnemonic: passPhrase.toString()
   };
 };
 
-console.log(createHDWallet());
+ 

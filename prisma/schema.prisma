@@ -16,62 +16,64 @@ enum Role {
 }
 
 model User {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  email     String    @unique
-  password  String
-  isActive  Boolean   @default(false)
-  jwt_token String?
-  role      Role
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  email       String    @unique
+  password    String
+  isActive    Boolean   @default(false)
+  secretToken String?
+  role        Role
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 }
 
 model Organisation {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String        @unique
   email        String
-  phone        String
+  phone        String?
   country      String?
   state        String?
   r_codes      Int?
-  wallet      Wallet[]
+  wallet       Wallet[]
   Transactions Transaction[]
   employee     Employee[]
   createdAt    DateTime      @default(now())
 }
 
 model Employee {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  name           String       @unique
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  name           String        @unique
   email          String
   wallet_address String?
   country        String?
   state          String?
-  org            Organisation @relation(fields: [orgID], references: [id])
-  orgID          String       @unique
-  createdAt      DateTime     @default(now())
+  org            Organisation  @relation(fields: [orgID], references: [id])
+  orgID          String        @unique
+  Transactions   Transaction[]
+  createdAt      DateTime      @default(now())
 }
 
 model Transaction {
-  id        String       @id @default(auto()) @map("_id") @db.ObjectId
-  sender    String
-  receiver  String
-  amount    Float
-  status    String
-  org       Organisation @relation(fields: [orgID], references: [id])
-  orgID     String
-  createdAt DateTime     @default(now())
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  sender     String
+  receiver   String
+  amount     Float
+  status     String
+  org        Organisation @relation(fields: [orgID], references: [id])
+  orgID      String       @unique
+  employee   Employee     @relation(fields: [employeeID], references: [id])
+  employeeID String
+  createdAt  DateTime     @default(now())
 }
 
 model Wallet {
   id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  wallet_address String
+  wallet_address String?
   privatekey     String?
   xpubkey        String?
-  nmemonic       String?
-  balance        Float
+  mnemonic       String?
   org            Organisation @relation(fields: [orgID], references: [id])
-  orgID          String
+  orgID          String       @unique
   createdAt      DateTime     @default(now())
 }
