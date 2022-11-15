@@ -7,14 +7,30 @@ import { encryptPrivateKey } from "../../../../utils/encrypt";
 const router: Router = Router();
 const prisma = new PrismaClient();
 
+//get current logged in organisation account details from database
+router.get("/get-account", requireAuth, async (req: Request, res: Response) => {
+  const orgid = req.params.orgid;
+  const organisation = await prisma.user.findUnique({
+    where: {
+      id: orgid,
+    },
+  });
+  if (!organisation) {
+    return res.status(400).json({ message: "Organisation not found." });
+  }
+  return res.status(200).json(organisation);
+});
+
+
+
 
 router.post(
-  "/create-wallet",
+  "/create-wallet/:orgid",
   requireAuth,
   async (req: Request, res: Response) => {
     try {
       //get createHDWallet function from utils
-      const wallet = await createHDWallet();
+      const wallet = createHDWallet();
       const mnemonic = wallet.mnemonic;
       const address = wallet.address;
       const privateKey = (
@@ -26,6 +42,7 @@ router.post(
           wallet_address: address,
           privatekey: privateKey,
           xpubkey: xpub,
+          orgID: req.params.orgid,
         },
       });
 
