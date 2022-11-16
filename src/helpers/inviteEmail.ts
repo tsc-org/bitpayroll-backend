@@ -10,7 +10,7 @@ export const inviteEmail = async (
     service: "gmail", // using gmail as mail service for testing
     auth: {
       user: config.email,
-      pass: config.emailKey,
+      pass: config.pass,
     },
     tls: {
       rejectUnauthorized: false,

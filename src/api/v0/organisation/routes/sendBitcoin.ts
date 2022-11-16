@@ -7,10 +7,6 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.post("/send-bitcoin", async (req: Request, res: Response) => {
-  //get walletaddress from organisation document in the database
-
-
-
   const { amount, toAddress, fromAddress, privateKey } = req.body;
   const decryptedPrivateKey = decryptPrivateKey(privateKey);
   const transaction = await sendBitcoin(
@@ -22,3 +18,5 @@ router.post("/send-bitcoin", async (req: Request, res: Response) => {
   return res.status(200).json({ transaction });
  
 });
+
+export const SendBitcoinRouter: Router = router;
