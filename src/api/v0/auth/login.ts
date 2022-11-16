@@ -44,6 +44,23 @@ router.post("/login", async (req: Request, res: Response) => {
     return res.status(200).json({ auth: true, jwt });
 });
 
+//get all users
+router.get("/get-users", async (req: Request, res: Response) => {
+    await prisma.$connect();
+    const users = await prisma.user.findMany();
+    return res.status(200).json({ users });
+});
+
+//delete all users
+router.delete("/delete-users", async (req: Request, res: Response) => {
+    await prisma.$connect();
+    const users = await prisma.user.deleteMany();
+    await prisma.$disconnect();
+    return res.status(200).json({ users });
+});
+
+
+
 
 
 export const LoginRouter: Router = router;

@@ -13,12 +13,12 @@ router.get("/profile", requireAuth, async (req: Request, res: Response) => {
         },
     });
     if (!user) {
-        return res.status(400).json({ message: "Not a User." });
+        return res.status(400).json({ message: "Not a organisation." });
     }
     return res.status(200).json({ user });
 });
 
-router.get("/update-account", requireAuth, async (req: Request, res: Response) => {
+router.get("/update-profile", requireAuth, async (req: Request, res: Response) => {
     const userId = req.params.id;   
     const user = await prisma.user.findFirst({
         where: {
