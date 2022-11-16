@@ -8,19 +8,19 @@ const prisma = new PrismaClient();
 router.put("/activate", async (req: Request, res: Response, next) => {
   try {
     const token = req.params.token;
-    const user = await prisma.user.findFirst({
+    const userToken = await prisma.user.findFirst({
       where: {
         secretToken: token,
       },
     });
-    if (!token) {
+    if (!userToken) {
       res
         .status(400)
         .json({ message: "Invalid token or account activated" });
     } else {
       await prisma.user.update({
         where: {
-          id: user.id,
+          id: userToken.id,
         },
         data: {
           isActive: true,

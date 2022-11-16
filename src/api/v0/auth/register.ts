@@ -86,4 +86,25 @@ router.post("/register-employee", async (req: Request, res: Response) => {
   return res.status(201).json({ token: jwt });
 });
 
+//delete user
+
+router.delete("/delete-user", async (req: Request, res: Response) => {
+  try {
+    const id = req.body.id;
+   const user = await prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    res.status(200).json({ message: "User deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    throw new Error(error);
+  }
+});
+
+
 export const RegisterRouter: Router = router;
+
+
+
