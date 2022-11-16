@@ -1,15 +1,16 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-
 import * as EmailValidator from "email-validator";
-import { requireAuth, generatePassword, generateJWT } from "./auth";
+import { generatePassword, generateJWT } from "./auth";
+import { randomString } from "../../../helpers/randomString";
+import { confirmationEmail } from "../../../helpers/confirmationEmail";
 
 const router: Router = Router();
 const prisma = new PrismaClient();
 
-
-
 router.post("/register-organisation", async (req: Request, res: Response) => {
+  try {
+    const secretToken = randomString();
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password required." });
@@ -34,16 +35,23 @@ router.post("/register-organisation", async (req: Request, res: Response) => {
       email: email,
       password: passwordHash,
       isActive: false,
+      secretToken: secretToken,
       role: "ORGANISATION",
     },
   });
 
+  await confirmationEmail(secretToken, email);
   const jwt = generateJWT(newUser);
-
   return res.status(201).json({ jwt });
+    
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    throw new Error(error);
+  }
 });
 
 router.post("/register-employee", async (req: Request, res: Response) => {
+  const secretToken = randomString();
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password required." });
@@ -68,13 +76,35 @@ router.post("/register-employee", async (req: Request, res: Response) => {
       email: email,
       password: passwordHash,
       isActive: false,
+      secretToken: secretToken,
       role: "EMPLOYEE",
     },
   });
 
+  await confirmationEmail(secretToken, email);
   const jwt = generateJWT(newUser);
-
-  return res.status(201).json({ token:jwt });
+  return res.status(201).json({ token: jwt });
 });
 
+//delete user
+
+router.delete("/delete-user", async (req: Request, res: Response) => {
+  try {
+    const id = req.body.id;
+   const user = await prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    res.status(200).json({ message: "User deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    throw new Error(error);
+  }
+});
+
+
 export const RegisterRouter: Router = router;
+
+
+

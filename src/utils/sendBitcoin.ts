@@ -4,7 +4,7 @@ const bitcore = require('bitcore-lib');
 
 
 //send fucntion with fee calculation
-const sendBitcoin = async (sourceAddress, recieverAddress, amount, privateKey) => {
+export const sendBitcoin = async (sourceAddress, recieverAddress, amount, privateKey) => {
     try {
         const sochain_network = "BTCTEST";
         sourceAddress = sourceAddress.toString();
@@ -87,5 +87,3 @@ const sendBitcoin = async (sourceAddress, recieverAddress, amount, privateKey) =
         
       }
     };
-
-    export default sendBitcoin;

@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 const dotenv = require("dotenv");
 const cors = require("cors");
 import { UserRouter } from "./api/v0/auth/user.router";
+import { OrgRouter } from "./api/v0/organisation/org.router";
 
 
 dotenv.config();
@@ -31,5 +32,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/", UserRouter);
+app.use("/", OrgRouter);
+
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
