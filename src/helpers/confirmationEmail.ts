@@ -17,7 +17,7 @@ export const confirmationEmail = async (
     },
   });
 
-  const confirmURL = `bitpayroll.vercel.app/${secretToken}`;
+  const confirmURL = `bitpayroll-3338py8wo-cryptochap.vercel.app/${secretToken}`;
   // setup email data with unicode symbols
   const mailOptions = {
     from: process.env.EMAIL,
