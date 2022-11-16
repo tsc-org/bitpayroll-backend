@@ -10,3 +10,5 @@ const prisma = new PrismaClient();
 router.post('/invite-employee', async (req:Request, res:Response,) => {
  
 });
+
+export const InviteEmployeeRouter: Router = router;

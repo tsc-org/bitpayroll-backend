@@ -5,7 +5,7 @@ const router: Router = Router();
 
 
 //route for activating account
-router.put('/activate/:token',  async (req:Request, res:Response, next) => {
+router.put('/activate',  async (req:Request, res:Response, next) => {
     const prisma = new PrismaClient();
     const token = req.params.token;
     const user = await prisma.user.findFirst({

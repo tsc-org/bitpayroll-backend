@@ -9,7 +9,8 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.post("/register-organisation", async (req: Request, res: Response) => {
-  const secretToken = randomString();
+  try {
+    const secretToken = randomString();
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password required." });
@@ -42,6 +43,11 @@ router.post("/register-organisation", async (req: Request, res: Response) => {
   await confirmationEmail(secretToken, email);
   const jwt = generateJWT(newUser);
   return res.status(201).json({ jwt });
+    
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    throw new Error(error);
+  }
 });
 
 router.post("/register-employee", async (req: Request, res: Response) => {
