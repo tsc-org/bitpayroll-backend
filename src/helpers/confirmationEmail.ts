@@ -7,7 +7,7 @@ export const confirmationEmail = async (
   userAddress: string
 ) => {
   try {
-    let transporter = nodemailer.createTransport({
+    let transporter =  await nodemailer.createTransport({
       service: "gmail", // using gmail as mail service for testing
       auth: {
         user: config.email,
