@@ -1,8 +1,7 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-
 import * as EmailValidator from "email-validator";
-import { generateJWT, comparePasswords } from "./auth";
+import { generateJWT, comparePasswords, requireAuth } from "./auth";
 const router: Router = Router();
 
 const prisma = new PrismaClient();
@@ -40,27 +39,25 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     const jwt = generateJWT(user);
+    await prisma.$disconnect();
 
     return res.status(200).json({ auth: true, jwt });
 });
 
 //get all users
-router.get("/get-users", async (req: Request, res: Response) => {
+router.get("/get-users", requireAuth, async (req: Request, res: Response) => {
     await prisma.$connect();
     const users = await prisma.user.findMany();
+    await prisma.$disconnect();
     return res.status(200).json({ users });
 });
 
 //delete all users
-router.delete("/delete-users", async (req: Request, res: Response) => {
+router.delete("/delete-users", requireAuth, async (req: Request, res: Response) => {
     await prisma.$connect();
     const users = await prisma.user.deleteMany();
     await prisma.$disconnect();
     return res.status(200).json({ users });
 });
-
-
-
-
 
 export const LoginRouter: Router = router;

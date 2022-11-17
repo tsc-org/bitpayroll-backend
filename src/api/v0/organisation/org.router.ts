@@ -1,5 +1,5 @@
 import { Router, Response, Request } from "express";
-import { UpdateAccountRouter } from "./routes/organisationProfile";
+import { UpdateAccountRouter } from "./routes/updateProfile";
 import { WalletRouter } from "./routes/createWallet";
 import { InviteEmployeeRouter } from "./routes/inviteEmployee";
 import { SendBitcoinRouter } from "./routes/sendBitcoin";
