@@ -12,6 +12,10 @@ dotenv.config();
 const app: Express = express();
 const port = config.port;
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.use(
   cors({
     allowedHeaders: [
@@ -23,7 +27,7 @@ app.use(
       "Authorization",
     ],
     methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-    preflightContinue: true,
+    preflightContinue: false,
     origin: "*",
   })
 );
