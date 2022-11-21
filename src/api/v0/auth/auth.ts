@@ -19,11 +19,15 @@ export async function comparePasswords(
   return await bcrypt.compare(password, hash);
 }
 
-export  function generateJWT(user: any): string {
+export async function generateJWT(user: any): Promise<string> {
   return jwt.sign(user, config.secret, { expiresIn: "24h" });
 }
 
-export function requireAuth(req: Request, res: Response, next: NextFunction) {
+export async function requireAuth(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> {
   if (!req.headers || !req.headers.authorization) {
     return res.status(401).send({ message: "No authorization headers." });
   }

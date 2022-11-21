@@ -5,9 +5,10 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 //route for activating account
-router.put("/activate/:token",  async (req: Request, res: Response, next) => {
+router.put("/activate/:token",  async (req: Request, res: Response,) => {
   try {
     const { token }= req.params;
+    await prisma.$connect();
     const userToken = await prisma.user.findFirst({
       where: {
         secretToken: token,
@@ -27,6 +28,7 @@ router.put("/activate/:token",  async (req: Request, res: Response, next) => {
           secretToken: null,
         },
       });
+      await prisma.$disconnect();
       res.status(200).json({ message: "Account activated" });
     }
   } catch (error) {
