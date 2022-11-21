@@ -38,7 +38,7 @@ router.post("/login", async (req: Request, res: Response) => {
         return res.status(401).json({ auth: false, message: "Invalid password." });
     }
 
-    const jwt = generateJWT(user);
+    const jwt = await generateJWT(user);
     await prisma.$disconnect();
 
     return res.status(200).json({ auth: true, jwt });

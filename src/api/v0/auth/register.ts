@@ -11,39 +11,38 @@ const prisma = new PrismaClient();
 router.post("/register-organisation", async (req: Request, res: Response) => {
   try {
     const secretToken = randomString();
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email and password required." });
-  }
-  if (!EmailValidator.validate(email)) {
-    return res.status(400).json({ message: "Email not valid." });
-  }
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required." });
+    }
+    if (!EmailValidator.validate(email)) {
+      return res.status(400).json({ message: "Email not valid." });
+    }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
-  if (user) {
-    return res.status(400).json({ message: "Email already in use." });
-  }
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (user) {
+      return res.status(400).json({ message: "Email already in use." });
+    }
 
-  const passwordHash = await generatePassword(password);
+    const passwordHash = await generatePassword(password);
 
-  const newUser = await prisma.user.create({
-    data: {
-      email: email,
-      password: passwordHash,
-      isActive: false,
-      secretToken: secretToken,
-      role: "ORGANISATION",
-    },
-  });
+    const newUser = await prisma.user.create({
+      data: {
+        email: email,
+        password: passwordHash,
+        isActive: false,
+        secretToken: secretToken,
+        role: "ORGANISATION",
+      },
+    });
 
-  await confirmationEmail(secretToken, email);
-  const jwt = generateJWT(newUser);
-  return res.status(201).json({ jwt });
-    
+    await confirmationEmail(secretToken, email);
+    const jwt = generateJWT(newUser);
+    return res.status(201).json({ jwt });
   } catch (error) {
     res.status(500).json({ error: error.message });
     throw new Error(error);
@@ -88,10 +87,10 @@ router.post("/register-employee", async (req: Request, res: Response) => {
 
 //delete user
 
-router.delete("/delete-user", async (req: Request, res: Response) => {
+router.delete("/delete-user/:id", async (req: Request, res: Response) => {
   try {
-    const id = req.body.id;
-   const user = await prisma.user.delete({
+    const { id } = req.params;
+    await prisma.user.delete({
       where: {
         id: id,
       },
@@ -103,8 +102,4 @@ router.delete("/delete-user", async (req: Request, res: Response) => {
   }
 });
 
-
 export const RegisterRouter: Router = router;
-
-
-

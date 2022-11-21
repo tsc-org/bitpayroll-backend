@@ -3,8 +3,9 @@ import { config } from "../config/config";
 
 //creating nodemailer transporter for sending confirmation link mail
 export const inviteEmail = async (
-  secretToken: string,
-  employeeAddress: string
+  orgToken: string,
+  employeeAddress: string,
+  orgName: string
 ) => {
   try {
     let transporter = nodemailer.createTransport({
@@ -17,8 +18,9 @@ export const inviteEmail = async (
         rejectUnauthorized: false,
       },
     });
-  
-    const confirmURL = `bitpayroll.vercel.app/${secretToken}`;
+
+    const confirmURL = `bitpayroll.vercel.app/invite/${orgToken}`;
+    const orgNameString = orgName.toString();
     // setup email data with unicode symbols
     const mailOptions = {
       from: process.env.EMAIL,
@@ -28,17 +30,17 @@ export const inviteEmail = async (
       <div style="width: 100%; max-width: 600px; margin: auto; background-color: white; padding: 20px;">
         <div style="width: 100%; text-align: center;">
           <h1 style="font-size: 30px; color: #1e90ff;">Welcome to the team!</h1>
-          <p style="font-size: 20px; color: #1e90ff;">Please confirm your email address to complete your registration.</p>
+          <p style="font-size: 20px; color: #1e90ff;">${orgNameString} is inviting you to join their Organisation</p>
         </div>  
         <div style="width: 100%; text-align: center;">
   
-          <a href="${confirmURL}" style="text-decoration: none; background-color: #1e90ff; color: white; padding: 10px 20px; border-radius: 5px; font-size: 20px;">Confirm</a>
+          <a href="${confirmURL}" style="text-decoration: none; background-color: #1e90ff; color: white; padding: 10px 20px; border-radius: 5px; font-size: 20px;">Join</a>
         </div>
       </div>
     </div>`,
     };
-  
     await transporter.sendMail(mailOptions);
+    return;
   } catch (error) {
     throw new Error(error);
   }
