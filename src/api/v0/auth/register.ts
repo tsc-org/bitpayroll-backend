@@ -44,8 +44,7 @@ router.post("/register-organisation", async (req: Request, res: Response) => {
     const jwt = generateJWT(newUser);
     return res.status(201).json({ jwt });
   } catch (error) {
-    res.status(500).json({ error: error.message });
-    throw new Error(error);
+   return res.status(500).json({ error: error.message });
   }
 });
 
@@ -97,8 +96,8 @@ router.delete("/delete-user/:id", async (req: Request, res: Response) => {
     });
     res.status(200).json({ message: "User deleted" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
-    throw new Error(error);
+   return res.status(500).json({ error: error.message });
+   
   }
 });
 

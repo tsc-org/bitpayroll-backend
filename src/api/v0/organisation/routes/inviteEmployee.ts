@@ -16,13 +16,10 @@ router.post(
       const { org } = req.params;
       const { email } = await req.body;
       const inviteCode = randomString(10);
-      const orgName = await prisma.user.findFirst({
+      const orgName = await prisma.profile.findUnique({
         where: {
-          id: org,
-        },
-        select: {
-          orgName: true,
-        },
+          userId: org,
+        }
       });
       await prisma.employee.create({
         data: {
@@ -36,15 +33,13 @@ router.post(
           },
         },
       });
-      if(!email === undefined) {
+      if (email === undefined) {
         return res.status(400).json({ message: "Email is required." });
       }
       await inviteEmail(inviteCode, email, orgName.orgName);
       return res.status(200).json({ message: "Invitation sent" });
-     
     } catch (error) {
-      res.status(500).json({ error: error.message });
-      // throw new Error(error);
+      return res.status(500).json({ error: error.message });
     }
   }
 );

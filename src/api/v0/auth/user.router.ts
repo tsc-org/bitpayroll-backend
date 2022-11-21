@@ -34,7 +34,7 @@ router.get("/:id", requireAuth, async (req: Request, res: Response) => {
     });
     res.json(user);
   } catch (error) {
-    throw new Error("User not found.");
+    return res.status(500).json({ error: error.message });
   }
 });
 

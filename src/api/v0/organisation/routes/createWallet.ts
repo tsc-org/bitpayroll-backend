@@ -34,10 +34,10 @@ router.post(
           },
         },
       });
-      res.status(200).json({ mnemonic, address });
+     return res.status(200).json({ mnemonic, address });
     } catch (error) {
-      res.status(500).json({ error: error.message });
-      throw new Error(error);
+     return res.status(500).json({ error: error.message });
+
     }
   }
 );
