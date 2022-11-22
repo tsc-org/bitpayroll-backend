@@ -54,7 +54,7 @@ model Employee {
   email          String?
   wallet_address String?
   salary         Float?
-  inviteCode     String?
+  inviteCode     String  @unique
   organisation   String?
   user           User     @relation(fields: [userId], references: [id])
   userId         String   @db.ObjectId

@@ -6,7 +6,7 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.post(
-  "/profile/:id",
+  "/create-profile/:id",
   requireAuth,
   async (req: Request, res: Response) => {
     try {
