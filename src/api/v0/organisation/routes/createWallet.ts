@@ -11,8 +11,8 @@ router.post(
   "/create-wallet/:id",
   requireAuth,
   async (req: Request, res: Response) => {
-    const { id } = req.params;
     try {
+      const { id } = req.params;
       //get createHDWallet function from utils
       const wallet = createHDWallet();
       const mnemonic = await wallet.mnemonic;
@@ -34,10 +34,10 @@ router.post(
           },
         },
       });
-      res.status(200).json({ mnemonic, address });
+     return res.status(200).json({ mnemonic, address });
     } catch (error) {
-      res.status(500).json({ error: error.message });
-      throw new Error(error);
+     return res.status(500).json({ error: error.message });
+
     }
   }
 );

@@ -29,11 +29,10 @@ router.put("/activate/:token",  async (req: Request, res: Response,) => {
         },
       });
       await prisma.$disconnect();
-      res.status(200).json({ message: "Account activated" });
+     return res.status(200).json({ message: "Account activated" });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
-    throw new Error(error);
+   return res.status(500).json({ error: error.message });
   }
 });
 
