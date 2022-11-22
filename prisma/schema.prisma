@@ -36,7 +36,7 @@ model Profile {
   orgName   String?
   firstName String?
   lastName  String?
-  email     String?   @unique
+  email     String?  
   phone     String?
   country   String?
   state     String?

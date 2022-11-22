@@ -41,8 +41,8 @@ router.post("/register-organisation", async (req: Request, res: Response) => {
     });
 
     await confirmationEmail(secretToken, email);
-    const jwt = generateJWT(newUser);
-    return res.status(201).json({ jwt });
+    const jwt = await generateJWT(newUser);
+    return res.status(201).json({ token: jwt });
   } catch (error) {
    return res.status(500).json({ error: error.message });
   }
@@ -80,7 +80,7 @@ router.post("/register-employee", async (req: Request, res: Response) => {
   });
 
   await confirmationEmail(secretToken, email);
-  const jwt = generateJWT(newUser);
+  const jwt = await generateJWT(newUser);
   return res.status(201).json({ token: jwt });
 });
 

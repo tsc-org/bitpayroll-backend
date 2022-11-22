@@ -4,7 +4,8 @@ import bodyParser from "body-parser";
 const dotenv = require("dotenv");
 const cors = require("cors");
 import { UserRouter } from "./api/v0/auth/user.router";
-import { OrgRouter } from "./api/v0/organisation/org.router";
+import { OrgRouter } from "./api/v0/organisation/organisation.router";
+import { EmployeeRouter } from "./api/v0/employee/employee.route";
 
 
 dotenv.config();
@@ -38,6 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/", UserRouter);
 app.use("/", OrgRouter);
+app.use("/", EmployeeRouter)
 
 
 

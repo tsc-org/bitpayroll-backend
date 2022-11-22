@@ -80,4 +80,4 @@ router.put(
         
         
         
-export const UpdateAccountRouter: Router = router;
+export const ProfileRouter: Router = router;
