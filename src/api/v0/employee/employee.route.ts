@@ -3,6 +3,7 @@ import { ProfileRouter } from "./routes/profile";
 import {UpdateDetailsRouter } from "./routes/updateDetails";
 
 
+
 const router: Router = Router();
 
 router.get("/emp", async (req: Request, res: Response) => {
@@ -12,6 +13,7 @@ router.get("/emp", async (req: Request, res: Response) => {
 
 router.use("/emp", ProfileRouter);
 router.use("/emp", UpdateDetailsRouter);
+
 
 
 
