@@ -51,7 +51,7 @@ model Employee {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   firstName      String?
   lastName       String?
-  email          String?
+  email          String?  @unique
   wallet_address String?
   salary         Float?
   inviteCode     String  @unique
