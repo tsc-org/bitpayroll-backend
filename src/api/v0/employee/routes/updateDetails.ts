@@ -6,7 +6,7 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.put(
-    "/payment-details/:inviteCode", requireAuth, async (req: Request, res: Response) => {
+    "/update-details/:inviteCode", requireAuth, async (req: Request, res: Response) => {
      try {
         const {inviteCode }= req.params;
         const { firstName, lastName, wallet_address } = req.body;
