@@ -6,8 +6,8 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.get("/list-employee/:id", async (req: Request, res: Response) => {
-    const {id} = req.params;
     try {
+        const {id} = req.params;
         await prisma.$connect();
         const employee = await prisma.employee.findMany({
             where: {
