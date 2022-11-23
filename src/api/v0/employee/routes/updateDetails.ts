@@ -32,4 +32,4 @@ router.put(
     }
 );
 
-export const PaymentDetailsRouter: Router = router;
+export const UpdateDetailsRouter: Router = router;
