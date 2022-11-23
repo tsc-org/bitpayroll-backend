@@ -22,8 +22,4 @@ router.use("/org", ListEmployeeRouter);
 router.use("/org", ListWalletRouter);
 router.use("/org", PaymentDetailsRouter);
 
-
-
-
-
 export const OrgRouter: Router = router;    
