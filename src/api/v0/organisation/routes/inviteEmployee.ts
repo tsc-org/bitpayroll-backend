@@ -9,16 +9,16 @@ const prisma = new PrismaClient();
 
 //route for inviting employee account
 router.post(
-  "/invite-employee/:org",
+  "/invite-employee/:orgId",
   requireAuth,
   async (req: Request, res: Response) => {
     try {
-      const { org } = req.params;
+      const { orgId } = req.params;
       const { email } = await req.body;
       const inviteCode = randomString(10);
       const orgName = await prisma.profile.findUnique({
         where: {
-          userId: org,
+          userId: orgId,
         }
       });
       await prisma.employee.create({
@@ -28,7 +28,7 @@ router.post(
           organisation: orgName.orgName,
           user: {
             connect: {
-              id: org,
+              id: orgId,
             },
           },
         },
