@@ -21,18 +21,18 @@ router.param("id", async (req: Request, res: Response, next, id) => {
 });
 
 router.post(
-  "/create-profile/:id",
+  "/create-profile/:userId",
   requireAuth,
   async (req: Request, res: Response) => {
     try {
-      const { id } = req.params;
+      const { userId } = req.params;
       const { orgName } = req.body;
       const profile = await prisma.profile.create({
         data: {
           orgName: orgName,
           user: {
             connect: {
-              id: id,
+              id: userId,
             },
           },
         },
@@ -51,15 +51,15 @@ router.post(
 
 //update profile
 router.put(
-  "/update-profile/:userID",
+  "/update-profile/:userId",
   requireAuth,
   async (req: Request, res: Response) => {
     try {
-      const { userID } = req.params;
+      const { userId } = req.params;
       const { orgName } = req.body;
       const profile = await prisma.profile.update({
         where: {
-          userId: userID,
+          userId: userId,
         },
         data: {
           orgName: orgName,
