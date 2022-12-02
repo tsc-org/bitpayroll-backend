@@ -20,49 +20,24 @@ router.param("id", async (req: Request, res: Response, next, id) => {
   next();
 });
 
-router.post(
-  "/create-profile/:userId",
-  requireAuth,
-  async (req: Request, res: Response) => {
-    try {
-      const { userId } = req.params;
-      const { orgName } = req.body;
-      const profile = await prisma.profile.create({
-        data: {
-          orgName: orgName,
-          user: {
-            connect: {
-              id: userId,
-            },
-          },
-        },
-      });
-      if (!profile) {
-        return res
-          .status(400)
-          .json({ message: "You are not authorised to this profile" });
-      }
-      return res.status(200).json({ profile });
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  }
-);
-
 //update profile
 router.put(
-  "/update-profile/:userId",
+  "/org-update-profile/:orgId",
   requireAuth,
   async (req: Request, res: Response) => {
     try {
-      const { userId } = req.params;
-      const { orgName } = req.body;
+      const { orgId } = req.params;
+      const { country, state, city, address, phone } = req.body;
       const profile = await prisma.profile.update({
         where: {
-          userId: userId,
+          userId: orgId,
         },
         data: {
-          orgName: orgName,
+          phone: phone,
+          country: country,
+          state: state,
+          city: city,
+          address: address,
         },
       });
       if (!profile) {

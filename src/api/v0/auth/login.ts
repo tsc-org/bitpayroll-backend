@@ -52,12 +52,17 @@ router.get("/get-users", requireAuth, async (req: Request, res: Response) => {
     return res.status(200).json({ users });
 });
 
-//delete all users
-router.delete("/delete-users", requireAuth, async (req: Request, res: Response) => {
+//delete a single user
+router.delete("/delete-user/:id", requireAuth, async (req: Request, res: Response) => {
     await prisma.$connect();
-    const users = await prisma.user.deleteMany();
+    const { id } = req.params;
+    const user = await prisma.user.delete({
+        where: {
+            id: id,
+        },
+    });
     await prisma.$disconnect();
-    return res.status(200).json({ users });
+    return res.status(200).json({ user });
 });
 
 export const LoginRouter: Router = router;

@@ -1,5 +1,5 @@
 import { Router, Response, Request } from "express";
-import { ProfileRouter } from "./routes/profile";
+import { ProfileRouter } from "./routes/updateProfile";
 import {UpdateDetailsRouter } from "./routes/updateDetails";
 
 

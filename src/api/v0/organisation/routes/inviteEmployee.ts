@@ -14,7 +14,7 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const { orgId } = req.params;
-      const { email } = await req.body;
+      const { email, salary } = await req.body;
       const inviteCode = randomString(10);
       const orgName = await prisma.profile.findUnique({
         where: {
@@ -24,6 +24,7 @@ router.post(
       await prisma.employee.create({
         data: {
           email: email,
+          salary: salary,
           inviteCode: inviteCode,
           organisation: orgName.orgName,
           user: {

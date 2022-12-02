@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 router.post("/register-organisation", async (req: Request, res: Response) => {
   try {
     const secretToken = randomString();
-    const { email, password } = req.body;
+    const { email, password, orgName } = req.body;
     if (!email || !password) {
       return res.status(400).json({ message: "Email and password required." });
     }
@@ -40,11 +40,27 @@ router.post("/register-organisation", async (req: Request, res: Response) => {
       },
     });
 
+    await prisma.profile.create({
+      data: {
+        orgName: orgName,
+        email: email,
+        phone: "",
+        country: "",
+        city: "",
+        address: "",
+        user: {
+          connect: {
+            id: newUser.id,
+          },
+        },
+      },
+    });
+
     await confirmationEmail(secretToken, email);
     const jwt = await generateJWT(newUser);
     return res.status(201).json({ token: jwt });
   } catch (error) {
-   return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -79,6 +95,23 @@ router.post("/register-employee", async (req: Request, res: Response) => {
     },
   });
 
+  await prisma.profile.create({
+    data: {
+      firstName: "",
+      lastName: "",
+      email: email,
+      phone: "",
+      country: "",
+      city: "",
+      address: "",
+      user: {
+        connect: {
+          id: newUser.id,
+        },
+      },
+    },
+  });
+
   await confirmationEmail(secretToken, email);
   const jwt = await generateJWT(newUser);
   return res.status(201).json({ token: jwt });
@@ -96,8 +129,7 @@ router.delete("/delete-user/:id", async (req: Request, res: Response) => {
     });
     res.status(200).json({ message: "User deleted" });
   } catch (error) {
-   return res.status(500).json({ error: error.message });
-   
+    return res.status(500).json({ error: error.message });
   }
 });
 

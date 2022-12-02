@@ -1,12 +1,11 @@
 import { Router, Response, Request, request } from "express";
 import { PrismaClient } from "@prisma/client";
-import { requireAuth } from "../../auth/auth";
 
 const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.put(
-    "/update-details/:inviteCode", requireAuth, async (req: Request, res: Response) => {
+    "/update-details/:inviteCode", async (req: Request, res: Response) => {
      try {
         const {inviteCode }= req.params;
         const { firstName, lastName, wallet_address } = req.body;
@@ -31,5 +30,6 @@ router.put(
      }
     }
 );
+
 
 export const UpdateDetailsRouter: Router = router;
