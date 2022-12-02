@@ -12,7 +12,7 @@ router.put(
   async (req: Request, res: Response) => {
     try {
       const { empId } = req.params;
-      const { firstName, lastName, country, city, phone, state, } = req.body;
+      const { firstName, lastName, country, city, phone, state, address } = req.body;
       const profile = await prisma.profile.update({
         where: {
           userId: empId,
@@ -23,6 +23,7 @@ router.put(
           phone: phone,
           country: country,
           state: state,
+          address: address,
           city: city,
         },
       });
