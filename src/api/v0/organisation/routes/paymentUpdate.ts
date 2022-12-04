@@ -7,10 +7,10 @@ const prisma = new PrismaClient();
 router.put(
     "/update-detail/:userId", async (req: Request, res: Response) => {
         try {
-            const { salary , email } = req.body;
+            const { salary , ref } = req.body;
             const details = await prisma.employee.update({
                 where: {   
-                    email: email
+                    inviteCode: ref
                 },
                 data: {
                     salary: salary,
