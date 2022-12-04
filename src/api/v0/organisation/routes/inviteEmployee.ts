@@ -37,6 +37,16 @@ router.post(
       if (email === undefined) {
         return res.status(400).json({ message: "Email is required." });
       }
+      //check if email is already in use by the organisation
+      const employee = await prisma.employee.findFirst({
+        where: {
+          email: email,
+        },
+      });
+      if (employee) {
+        return res.status(400).json({ message: "Email already in use." });
+      }
+      //send invite email
       await inviteEmail(inviteCode, email, orgName.orgName);
       return res.status(200).json({ message: "Invitation sent" });
     } catch (error) {
