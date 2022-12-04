@@ -14,6 +14,7 @@ router.get("/list-employee/:id", async (req: Request, res: Response) => {
                 userId: id
             },
            select: {
+            id: true,
             firstName: true,
             lastName: true,
             email: true,

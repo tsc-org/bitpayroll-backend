@@ -12,16 +12,21 @@ router.post("/send-payment/:orgId", async (req: Request, res: Response) => {
     const { orgId } = req.params;
     //get req body from for selection of employees
     const { employeeIds } = req.body;
-    //get organisation from db
-    const orgWallet = await prisma.wallet.findUnique({
+    //get wallet details from db
+    const wallet = await prisma.wallet.findFirst({
       where: {
-        id: orgId,
+        userId: orgId,
       },
     });
-    //get organisation's private key
-    const privateKey = decryptPrivateKey(orgWallet.privatekey);
     //get organisation's bitcoin address
-    const orgAddress = orgWallet.address;
+    const orgAddress = wallet.address;
+
+    // get organisation's private key
+    const privateKey = (await decryptPrivateKey(wallet.privatekey))
+
+    console.log("private key", privateKey);
+  
+
     //get all employees that belong to the organisation
     const employees = await prisma.employee.findMany({
       where: {
@@ -37,16 +42,13 @@ router.post("/send-payment/:orgId", async (req: Request, res: Response) => {
 
     //get salary amount of selected employees
     const amount = selectedEmployees.map((employee) => employee.salary)
-    //send bitcoin to all selected employees
-    const txId = await sendBitcoin(
-      orgAddress,
-      addresses,
-      amount,
-      privateKey,
-    );
+    //send bitcoin to each selected employee
+    const payment = addresses.forEach(async (address, index) => {
+      await sendBitcoin(orgAddress, address, amount[index], privateKey);
+    });
 
-    //TODO: update db schema to include balance instead of fetching for sochian API always and avoid rate limiting.
-    //update employee's balance
+    // TODO: update db schema to include balance instead of fetching for sochian API always and avoid rate limiting.
+    // update employee's balance
     // await prisma.employee.updateMany({
     //   where: {
     //     id: {
@@ -70,7 +72,7 @@ router.post("/send-payment/:orgId", async (req: Request, res: Response) => {
     //     },
     //   },
     // });
-    res.status(200).json({ txId });
+    return res.status(200).json({ message: "Payment sent", payment });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

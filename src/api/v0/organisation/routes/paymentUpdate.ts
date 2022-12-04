@@ -5,12 +5,13 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.put(
-    "/update-detail/:userId", async (req: Request, res: Response) => {
+    "/update-payment/:userId", async (req: Request, res: Response) => {
         try {
             const { salary , ref } = req.body;
+            //check if 
             const details = await prisma.employee.update({
                 where: {   
-                    inviteCode: ref
+                    inviteCode: ref,
                 },
                 data: {
                     salary: salary,
@@ -19,7 +20,7 @@ router.put(
             if (!details) {
                 return res
                     .status(400)
-                    .json({ message: "Pleas check your input again" });
+                    .json({ message: "Please check your input again" });
             }
             return res.status(200).json({ details });
         } catch (error) {
