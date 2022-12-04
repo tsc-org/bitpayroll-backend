@@ -12,7 +12,7 @@ router.get("/list-wallet/:id", requireAuth, async (req: Request, res: Response) 
         const { id } = req.params;
         const wallets = await prisma.wallet.findMany({
             where: {
-                userID: id
+                userId: id
             },
             select: {
                 address: true,

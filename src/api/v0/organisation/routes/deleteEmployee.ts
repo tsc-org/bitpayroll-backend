@@ -5,10 +5,10 @@ const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.delete("/delete-emp/:orgId", async (req: Request, res: Response) => {
-  const { email } = req.body;
+  const { ref } = req.body;
   await prisma.employee.delete({
     where: {
-      email: email,
+      inviteCode: ref,
     },
   });
   return res.status(200).json({ message: "Employee deleted" });
