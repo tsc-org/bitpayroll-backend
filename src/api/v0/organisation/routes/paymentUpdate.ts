@@ -8,7 +8,11 @@ router.put(
     "/update-payment/:userId", async (req: Request, res: Response) => {
         try {
             const { salary , ref } = req.body;
-            //check if 
+            //check if ref and req.body is valid
+            if (ref && salary === undefined) {  
+                return res.status(400).json({ message: "Invalid input please check your input" });
+            }
+
             const details = await prisma.employee.update({
                 where: {   
                     inviteCode: ref,

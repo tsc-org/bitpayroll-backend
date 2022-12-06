@@ -22,9 +22,7 @@ router.post("/send-payment/:orgId", async (req: Request, res: Response) => {
     const orgAddress = wallet.address;
 
     // get organisation's private key
-    const privateKey = (await decryptPrivateKey(wallet.privatekey))
-
-    console.log("private key", privateKey);
+    const privateKey = (await decryptPrivateKey(wallet.privatekey)).toString()
   
 
     //get all employees that belong to the organisation
@@ -46,6 +44,8 @@ router.post("/send-payment/:orgId", async (req: Request, res: Response) => {
     const payment = addresses.forEach(async (address, index) => {
       await sendBitcoin(orgAddress, address, amount[index], privateKey);
     });
+
+    console.log(payment)
 
     // TODO: update db schema to include balance instead of fetching for sochian API always and avoid rate limiting.
     // update employee's balance

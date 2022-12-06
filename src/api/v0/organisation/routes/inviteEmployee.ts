@@ -16,11 +16,20 @@ router.post(
       const { orgId } = req.params;
       const { email, salary } = await req.body;
       const inviteCode = randomString(10);
-      const orgName = await prisma.profile.findUnique({
+      const orgName = await prisma.profile.findFirst({
         where: {
           userId: orgId,
-        }
+        },
       });
+      //check if email is already in use by the organisation
+      const employee = await prisma.employee.findFirst({
+        where: {
+          email: email,
+        },
+      });
+      if (employee) {
+        return res.status(400).json({ message: "Email already in use." });
+      }
       await prisma.employee.create({
         data: {
           email: email,
@@ -36,15 +45,6 @@ router.post(
       });
       if (email === undefined) {
         return res.status(400).json({ message: "Email is required." });
-      }
-      //check if email is already in use by the organisation
-      const employee = await prisma.employee.findFirst({
-        where: {
-          email: email,
-        },
-      });
-      if (employee) {
-        return res.status(400).json({ message: "Email already in use." });
       }
       //send invite email
       await inviteEmail(inviteCode, email, orgName.orgName);

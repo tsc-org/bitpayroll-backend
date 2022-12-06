@@ -21,7 +21,7 @@ export const sendBitcoin = async (sourceAddress: string, recieverAddress: string
     
         const recommendedFee = await axios.get(
           "https://bitcoinfees.earn.com/api/v1/fees/recommended"
-        );
+        ); 
     
         const transaction = new bitcore.Transaction();
         let totalAmountAvailable = 0;
