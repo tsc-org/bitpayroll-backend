@@ -17,7 +17,7 @@ router.put("/activate/:token",  async (req: Request, res: Response,) => {
     if (userToken === null) {
       res
         .status(400)
-        .json({ message: "Invalid token or account activated" });
+        .json({ message: "Invalid token or account activated please try logging in" });
     } else {
       await prisma.user.update({
         where: {

@@ -60,6 +60,8 @@ export const sendBitcoin = async (sourceAddress: string, recieverAddress: string
     
         // set the recieving address and the amount to send
         transaction.to(recieverAddress, satoshiToSend);
+      
+
     
         // Set change address - Address to receive the left over funds after transfer
         transaction.change(sourceAddress);
