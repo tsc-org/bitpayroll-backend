@@ -34,6 +34,7 @@ router.post("/register-organisation", async (req: Request, res: Response) => {
       data: {
         email: email,
         password: passwordHash,
+        orgName: orgName,
         isActive: false,
         secretToken: secretToken,
         role: "ORGANISATION",

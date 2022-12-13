@@ -19,6 +19,7 @@ model User {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   email        String        @unique
   password     String
+  orgName      String?
   isActive     Boolean       @default(false)
   secretToken  String?
   role         Role
