@@ -1,9 +1,9 @@
 const axios = require('axios');
-const bitcore = require('bitcore-lib');
+const bitcoin = require("bitcoinjs-lib");
 
 
 
-//send fucntion with fee calculation
+//send function with fee calculation
 export const sendBitcoin = async (sourceAddress: string, recieverAddress: string, amount: number, privateKey: string):Promise<any> => {
     try {
         const sochain_network = "BTCTEST";
@@ -23,7 +23,7 @@ export const sendBitcoin = async (sourceAddress: string, recieverAddress: string
           "https://bitcoinfees.earn.com/api/v1/fees/recommended"
         ); 
     
-        const transaction = new bitcore.Transaction();
+        const transaction = new bitcoin.Transaction();
         let totalAmountAvailable = 0;
     
         let inputs = [];
