@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { createHDWallet } from "../../../../utils/createWallet";
+import { createWallet } from "../../../../utils/createWallet";
 import { requireAuth } from "../../auth/auth";
 import { encryptPrivateKey } from "../../../../utils/encrypt";
 
@@ -14,19 +14,19 @@ router.post(
     try {
       const { id } = req.params;
       //get createHDWallet function from utils
-      const wallet = createHDWallet();
+      const wallet = createWallet();
       const mnemonic = await wallet.mnemonic;
       const address = await wallet.address;
       const privateKey = (
-        await encryptPrivateKey(wallet.privatekey)
+        await encryptPrivateKey(wallet.privateKey)
       ).toString();
-      const xpub = await wallet.xpub;
+      const wif = await wallet.wif;
       //create wallet in wallet and connect with user collection
      await prisma.wallet.create({
         data: {
           address: address,
           privatekey: privateKey,
-          xpubkey: xpub,
+          wif: wif,
           user: {
             connect: {
               id: id,
