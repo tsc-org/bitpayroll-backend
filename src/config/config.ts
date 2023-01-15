@@ -7,4 +7,6 @@ export const config  = {
     port: process.env.PORT,
     email: process.env.EMAIL,
     pass: process.env.PASS,
+    blockstream: process.env.BLOCKSTREAM,
+    btcnetwork: process.env.BTCNETWORK,
 }
