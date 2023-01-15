@@ -7,7 +7,7 @@ import { requireAuth } from "../../auth/auth";
 const router: Router = Router();
 const prisma = new PrismaClient();
 
-//route for inviting employee account
+//route for inviting employee
 router.post(
   "/invite-employee/:orgId",
   requireAuth,
@@ -16,9 +16,9 @@ router.post(
       const { orgId } = req.params;
       const { email, salary } = await req.body;
       const inviteCode = randomString(10);
-      const orgName = await prisma.profile.findFirst({
+      const orgName = await prisma.user.findFirst({
         where: {
-          userId: orgId,
+          id: orgId,
         },
       });
       //check if email is already in use by the organisation
