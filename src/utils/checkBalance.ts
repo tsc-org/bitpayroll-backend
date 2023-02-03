@@ -1,4 +1,4 @@
-const axiosBalance = require("axios");
+import axiosBalance from "axios";
 
 //check balance function
 const confirmedBalance = async (address)=> {

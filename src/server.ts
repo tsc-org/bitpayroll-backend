@@ -1,8 +1,8 @@
-import express, { Express } from "express";
+import express, { Application, Response, Request, NextFunction, Express } from 'express';
 import {config} from "./config/config";
 import bodyParser from "body-parser";
-const dotenv = require("dotenv");
-const cors = require("cors");
+import dotenv from "dotenv";
+import cors from "cors";
 import { UserRouter } from "./api/v0/auth/user.router";
 import { OrgRouter } from "./api/v0/organisation/organisation.router";
 import { EmployeeRouter } from "./api/v0/employee/employee.route";

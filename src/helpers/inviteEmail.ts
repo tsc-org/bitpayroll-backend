@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 import { config } from "../config/config";
 
 //creating nodemailer transporter for sending confirmation link mail
@@ -25,7 +25,7 @@ export const inviteEmail = async (
     const mailOptions = {
       from: process.env.EMAIL,
       to: employeeAddress,
-      subject: "Confirm your account",
+      subject: "Invitation to join Organisation",
       html: `<div style="width: 100%; height: 100%; background-color: #f2f2f2; padding: 20px;">
       <div style="width: 100%; max-width: 600px; margin: auto; background-color: white; padding: 20px;">
         <div style="width: 100%; text-align: center;">
