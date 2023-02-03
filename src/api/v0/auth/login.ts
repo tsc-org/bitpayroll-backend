@@ -2,8 +2,8 @@ import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import * as EmailValidator from "email-validator";
 import { generateJWT, comparePasswords, requireAuth } from "./auth";
-const router: Router = Router();
 
+const router: Router = Router();
 const prisma = new PrismaClient();
 
 router.post("/login", async (req: Request, res: Response) => {

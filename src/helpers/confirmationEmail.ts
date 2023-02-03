@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 import { config } from "../config/config";
 
 //creating nodemailer transporter for sending confirmation link mail
